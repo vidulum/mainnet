@@ -1,0 +1,59 @@
+build:
+  binary: "vidulumd"
+accounts:
+  - name: alice
+    coins: ["1000000000uvdl"]
+  - name: bob
+    coins: ["1000000000uvdl"]
+validator:
+  name: bob
+  staked: "10000000uvdl"
+client:
+  openapi:
+    path: "docs/static/openapi.yml"
+  vuex:
+    path: "vue/src/store"
+
+genesis:
+  chain_id: "vidulum-1"
+  app_state:
+    crisis:
+      constant_fee:
+        amount: "1000000000"
+        denom: "uvdl"
+    distribution:
+      params:
+        community_tax: "0.050000000000000000"
+    gov:
+      deposit_params:
+        max_deposit_period: "86400s"
+        min_deposit:
+          - amount: "10000000000"
+            denom: "uvdl"
+      voting_params:
+        voting_period: "604800s"
+      tally_params:
+        quorum: "0.400000000000000000"
+        threshold: "0.500000000000000000"
+        veto_threshold: "0.334000000000000000"
+    mint:
+      minter:
+        annual_provisions: "0.000000000000000000"
+        inflation: "0.13000000000000000"
+      params:
+        blocks_per_year: "573500"
+        goal_bonded: "0.670000000000000000"
+        inflation_max: "0.000000000000000001"
+        inflation_min: "0.000000000000000001"
+        inflation_rate_change: "1.000000000000000000"
+        mint_denom: "uvdl"
+    staking:
+      params:
+        bond_denom: "uvdl"
+    slashing:
+      params:
+        downtime_jail_duration: "600s"
+        min_signed_per_window: "0.100000000000000000"
+        signed_blocks_window: "10000"
+        slash_fraction_double_sign: "0.050000000000000000"
+        slash_fraction_downtime: "0.000100000000000000"
