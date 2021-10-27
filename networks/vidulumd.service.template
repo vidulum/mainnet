@@ -1,0 +1,17 @@
+# /etc/systemd/system/vidulumd.service
+[Unit]
+Description=Vidulum_Blockchain
+ConditionPathExists=<VIDULUMD_BINARY>
+After=network.target
+
+[Service]
+Type=simple
+User=<VIDULUMD_USER>
+WorkingDirectory=<VIDULUMD_BINARY_DIR>
+ExecStart=<VIDULUMD_BINARY> start --home <VIDULUMD_USER_HOME>/.vidulum
+Restart=on-failure
+RestartSec=10
+LimitNOFILE=4096
+
+[Install]
+WantedBy=multi-user.target
