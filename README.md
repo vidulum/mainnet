@@ -11,8 +11,11 @@ Explorer: https://explorers.vidulum.app/vidulum
 Discord for Support: https://discord.gg/QhV2Wx6
 
 Vidulum App to interact with our blockchains staking, governance and more!
+
 Android: https://play.google.com/store/apps/details?id=com.vidulumwallet.app
+
 iOS: https://apps.apple.com/us/app/id1505859171
+
 Web: https://wallet.vidulum.app
 
 
