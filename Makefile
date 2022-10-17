@@ -3,9 +3,8 @@ PACKAGE_NAME:=github.com/vidulum/vidulum
 GOLANG_CROSS_VERSION  = v1.16.7
 
 
-# VERSION := $(shell echo $(shell git describe --tags 2>/dev/null ) | sed 's/^v//')
-VERSION = "1.0.0"
-# COMMIT := $(shell git log -1 --format='%H')
+VERSION := $(shell echo $(shell git describe --tags 2>/dev/null ) | sed 's/^v//')
+COMMIT := $(shell git log -1 --format='%H')
 COMMIT = "latest"
 NETWORK ?= mainnet
 COVERAGE ?= coverage.txt
