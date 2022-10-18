@@ -3,3 +3,4 @@ vue/dist
 release/
 build/
 .DS_Store
+.release-env

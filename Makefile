@@ -1,5 +1,5 @@
 PACKAGES=$(shell go list ./... | grep -v '/simulation')
-PACKAGE_NAME:=github.com/vidulum/vidulum
+PACKAGE_NAME:=github.com/vidulum/mainnet
 GOLANG_CROSS_VERSION  = v1.16.7
 
 
@@ -120,8 +120,8 @@ build-docker-vidulumdnode:
 
 # Run a 4-node testnet locally
 localnet-start: build-linux build-docker-testvidulumdnode localnet-stop
-	@if ! [ -f $(BUILDDIR)/node0/.testvidulum/config/genesis.json ]; \
-	then docker run --rm -v $(BUILDDIR):/testvidulumd:Z vidulum/testvidulumdnode testnet --v 4 -o . --starting-ip-address 192.168.10.2 $(TESTNET_FLAGS); \
+	@if ! [ -f $(BUILDDIR)/node0/.vidulum/config/genesis.json ]; \
+	then docker run --rm -v $(BUILDDIR):/vidulumd:Z vidulum/vidulumdnode mainnet --v 4 -o . --starting-ip-address 192.168.10.2 $(TESTNET_FLAGS); \
 	fi
 	BUILDDIR=$(BUILDDIR) docker-compose up -d
 
