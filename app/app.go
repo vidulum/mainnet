@@ -402,14 +402,14 @@ func New(
 		evidencetypes.ModuleName, stakingtypes.ModuleName, ibchost.ModuleName,
 		feegrant.ModuleName, paramstypes.ModuleName, authtypes.ModuleName, banktypes.ModuleName,
 		crisistypes.ModuleName, govtypes.ModuleName, genutiltypes.ModuleName, ibctransfertypes.ModuleName,
-		testvidulummoduletypes.ModuleName, vestingtypes.ModuleName,
+		vidulummoduletypes.ModuleName, vestingtypes.ModuleName,
 	)
 
 	app.mm.SetOrderEndBlockers(upgradetypes.ModuleName, capabilitytypes.ModuleName, minttypes.ModuleName, distrtypes.ModuleName, slashingtypes.ModuleName,
 		evidencetypes.ModuleName, stakingtypes.ModuleName, ibchost.ModuleName,
 		feegrant.ModuleName, paramstypes.ModuleName, authtypes.ModuleName, banktypes.ModuleName,
 		crisistypes.ModuleName, govtypes.ModuleName, genutiltypes.ModuleName, ibctransfertypes.ModuleName,
-		testvidulummoduletypes.ModuleName, vestingtypes.ModuleName)
+		vidulummoduletypes.ModuleName, vestingtypes.ModuleName)
 
 	// NOTE: The genutils module must occur after staking so that pools are
 	// properly initialized with tokens from genesis accounts.
@@ -421,7 +421,7 @@ func New(
 		evidencetypes.ModuleName, stakingtypes.ModuleName, ibchost.ModuleName,
 		feegrant.ModuleName, paramstypes.ModuleName, authtypes.ModuleName, banktypes.ModuleName,
 		crisistypes.ModuleName, govtypes.ModuleName, genutiltypes.ModuleName, ibctransfertypes.ModuleName,
-		testvidulummoduletypes.ModuleName, vestingtypes.ModuleName,
+		vidulummoduletypes.ModuleName, vestingtypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	)
 
