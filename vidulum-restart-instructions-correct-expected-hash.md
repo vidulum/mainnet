@@ -1,6 +1,6 @@
 0.) check your expected hash:
 
-`journalctl -u vidulumd | grep 'wrong Block.Header.AppHash'`
+`journalctl -u vidulumd -n 2500 | grep 'wrong Block.Header.AppHash'`
 
 wait for the output to complete, this might take up to 1-2min
 
