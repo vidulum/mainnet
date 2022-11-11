@@ -20,7 +20,7 @@ Web: https://wallet.vidulum.app
 
 
 #### - Download Prebuilt Binary
-`wget https://github.com/vidulum/mainnet/releases/download/v1.0.0/vidulum_linux_amd64.tar.gz`
+`wget https://github.com/vidulum/mainnet/releases/download/v1.2.0/vidulumd`
 
 
 #### - Store Binary in local bin
