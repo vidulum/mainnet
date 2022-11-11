@@ -37,7 +37,7 @@ Web: https://wallet.vidulum.app
 
 
 #### - Start the daemon and save peers to address book
-`vidulumd start --p2p.seeds="883ec7d5af7222c206674c20c997ccc5c242b38b@ec2-3-82-120-39.compute-1.amazonaws.com:26656,eed11fff15b1eca8016c6a0194d86e4a60a65f9b@apollo.erialos.me:26656"`
+`vidulumd start --p2p.seeds="1f0bcfce2def9553c2a2f64342927a495ac27a38@mainnet-seed.vidulum.app:443,20e1000e88125698264454a884812746c2eb4807@seeds.lavenderfive.com:17056,eed11fff15b1eca8016c6a0194d86e4a60a65f9b@apollo.erialos.me:26656"`
 
 
 #### - Allow daemon to fully sync
