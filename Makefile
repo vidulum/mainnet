@@ -39,18 +39,18 @@ BINDIR ?= ~/go/bin
 
 OS := $(shell uname)
 
-all: download install
+all: check-version download install
 
 download:
 	git submodule update --init --recursive
 
-install: check-network go.sum
+install: check-version check-network go.sum
 		go install -mod=readonly $(BUILD_FLAGS) $(BUILD_TAGS) ./cmd/vidulumd
 
-build: check-network go.sum
+build: check-version check-network go.sum
 		go build -mod=readonly $(BUILD_FLAGS) $(BUILD_TAGS) -o $(BUILDDIR)/vidulumd ./cmd/vidulumd
 
-buildwindows: check-network go.sum
+buildwindows: check-version check-network go.sum
 		go build -buildmode=exe -mod=readonly $(BUILD_FLAGS) $(BUILD_TAGS) -o $(BUILDDIR)/vidulumd.exe ./cmd/vidulumd
 
 
@@ -244,6 +244,13 @@ release:
 		-w /go/src/$(PACKAGE_NAME) \
 		troian/golang-cross:${GOLANG_CROSS_VERSION} \
 		release --rm-dist --skip-validate
+
+# Add check to make sure we are using the proper Go version before proceeding with anything
+check-version:
+	@if ! go version | grep -q "go1.19"; then \
+		echo "\033[0;31mERROR:\033[0m Go version 1.19 is required for compiling vidulumd. It looks like you are using" "$(shell go version) \nThere are potential consensus-breaking changes that can occur when running binaries compiled with different versions of Go. Please download Go version 1.19 and retry. Thank you!"; \
+		exit 1; \
+	fi
 
 ###############################################################################
 ###                              Documentation                              ###
