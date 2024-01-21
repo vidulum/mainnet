@@ -11,7 +11,6 @@ require (
 	github.com/spf13/cast v1.5.0
 	github.com/spf13/cobra v1.6.1
 	github.com/stretchr/testify v1.8.1
-	github.com/tendermint/spm v0.1.9
 	github.com/tendermint/tendermint v0.34.27
 	github.com/tendermint/tm-db v0.6.6
 	google.golang.org/genproto/googleapis/api v0.0.0-20240102182953-50ed04b92917
