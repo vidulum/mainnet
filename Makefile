@@ -1,6 +1,6 @@
 PACKAGES=$(shell go list ./... | grep -v '/simulation')
 PACKAGE_NAME:=github.com/vidulum/mainnet
-GOLANG_CROSS_VERSION  = v1.16.7
+GOLANG_CROSS_VERSION  = v1.19.13
 
 
 VERSION := $(shell echo $(shell git describe --tags 2>/dev/null ) | sed 's/^v//')
