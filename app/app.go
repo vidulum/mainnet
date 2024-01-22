@@ -2,6 +2,9 @@ package app
 
 import (
 	"fmt"
+	burnermodulekeeper "github.com/bze-alphateam/bze/x/burner/keeper"
+	burnermoduletypes "github.com/bze-alphateam/bze/x/burner/types"
+	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	"io"
 	"net/http"
 	"os"
@@ -85,6 +88,8 @@ import (
 	tmos "github.com/tendermint/tendermint/libs/os"
 	dbm "github.com/tendermint/tm-db"
 
+	burnermodule "github.com/bze-alphateam/bze/x/burner"
+	burnermoduleclient "github.com/bze-alphateam/bze/x/burner/client"
 	"github.com/vidulum/vidulum/app/openapi"
 	"github.com/vidulum/vidulum/docs"
 
@@ -110,6 +115,7 @@ func getGovProposalHandlers() []govclient.ProposalHandler {
 		distrclient.ProposalHandler,
 		upgradeclient.ProposalHandler,
 		upgradeclient.CancelProposalHandler,
+		burnermoduleclient.BurnCoinsProposalHandler,
 		// this line is used by starport scaffolding # stargate/app/govProposalHandler
 	)
 
@@ -142,6 +148,7 @@ var (
 		transfer.AppModuleBasic{},
 		vesting.AppModuleBasic{},
 		vidulummodule.AppModuleBasic{},
+		burnermodule.AppModuleBasic{},
 		// this line is used by starport scaffolding # stargate/app/moduleBasic
 	)
 
@@ -154,7 +161,14 @@ var (
 		stakingtypes.NotBondedPoolName: {authtypes.Burner, authtypes.Staking},
 		govtypes.ModuleName:            {authtypes.Burner},
 		ibctransfertypes.ModuleName:    {authtypes.Minter, authtypes.Burner},
+		burnermoduletypes.ModuleName:   {authtypes.Burner},
 		// this line is used by starport scaffolding # stargate/app/maccPerms
+	}
+
+	// a map of modules allowed to receive external funds
+	// this list will be excluded from bank/distribution modules blocked addresses
+	allowedModules = map[string]struct{}{
+		burnermoduletypes.ModuleName: {},
 	}
 )
 
@@ -210,6 +224,7 @@ type App struct {
 	ScopedTransferKeeper capabilitykeeper.ScopedKeeper
 
 	VidulumKeeper vidulummodulekeeper.Keeper
+	BurnerKeeper  burnermodulekeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// the module manager
@@ -243,7 +258,7 @@ func New(
 		minttypes.StoreKey, distrtypes.StoreKey, slashingtypes.StoreKey,
 		govtypes.StoreKey, paramstypes.StoreKey, ibchost.StoreKey, upgradetypes.StoreKey, feegrant.StoreKey,
 		evidencetypes.StoreKey, ibctransfertypes.StoreKey, capabilitytypes.StoreKey,
-		vidulummoduletypes.StoreKey,
+		vidulummoduletypes.StoreKey, burnermoduletypes.StoreKey,
 		// this line is used by starport scaffolding # stargate/app/storeKey
 	)
 	tkeys := sdk.NewTransientStoreKeys(paramstypes.TStoreKey)
@@ -278,7 +293,7 @@ func New(
 		appCodec, keys[authtypes.StoreKey], app.GetSubspace(authtypes.ModuleName), authtypes.ProtoBaseAccount, maccPerms,
 	)
 	app.BankKeeper = bankkeeper.NewBaseKeeper(
-		appCodec, keys[banktypes.StoreKey], app.AccountKeeper, app.GetSubspace(banktypes.ModuleName), app.ModuleAccountAddrs(),
+		appCodec, keys[banktypes.StoreKey], app.AccountKeeper, app.GetSubspace(banktypes.ModuleName), app.GetBlockedAddresses(),
 	)
 	stakingKeeper := stakingkeeper.NewKeeper(
 		appCodec, keys[stakingtypes.StoreKey], app.AccountKeeper, app.BankKeeper, app.GetSubspace(stakingtypes.ModuleName),
@@ -289,7 +304,7 @@ func New(
 	)
 	app.DistrKeeper = distrkeeper.NewKeeper(
 		appCodec, keys[distrtypes.StoreKey], app.GetSubspace(distrtypes.ModuleName), app.AccountKeeper, app.BankKeeper,
-		&stakingKeeper, authtypes.FeeCollectorName, app.ModuleAccountAddrs(),
+		&stakingKeeper, authtypes.FeeCollectorName, app.GetBlockedAddresses(),
 	)
 	app.SlashingKeeper = slashingkeeper.NewKeeper(
 		appCodec, keys[slashingtypes.StoreKey], &stakingKeeper, app.GetSubspace(slashingtypes.ModuleName),
@@ -314,13 +329,24 @@ func New(
 		appCodec, keys[ibchost.StoreKey], app.GetSubspace(ibchost.ModuleName), app.StakingKeeper, app.UpgradeKeeper, scopedIBCKeeper,
 	)
 
+	app.BurnerKeeper = *burnermodulekeeper.NewKeeper(
+		appCodec,
+		keys[burnermoduletypes.StoreKey],
+		keys[burnermoduletypes.MemStoreKey],
+		app.GetSubspace(burnermoduletypes.ModuleName),
+		app.BankKeeper,
+		app.AccountKeeper,
+	)
+	burnerModule := burnermodule.NewAppModule(appCodec, app.BurnerKeeper, app.AccountKeeper, app.BankKeeper)
+
 	// register the proposal types
 	govRouter := govtypes.NewRouter()
 	govRouter.AddRoute(govtypes.RouterKey, govtypes.ProposalHandler).
 		AddRoute(paramproposal.RouterKey, params.NewParamChangeProposalHandler(app.ParamsKeeper)).
 		AddRoute(distrtypes.RouterKey, distr.NewCommunityPoolSpendProposalHandler(app.DistrKeeper)).
 		AddRoute(upgradetypes.RouterKey, upgrade.NewSoftwareUpgradeProposalHandler(app.UpgradeKeeper)).
-		AddRoute(ibchost.RouterKey, ibcclient.NewClientProposalHandler(app.IBCKeeper.ClientKeeper))
+		AddRoute(ibchost.RouterKey, ibcclient.NewClientProposalHandler(app.IBCKeeper.ClientKeeper)).
+		AddRoute(burnermoduletypes.RouterKey, burnermodule.NewBurnerProposalHandler(app.BurnerKeeper))
 
 	// Create Transfer Keepers
 	app.TransferKeeper = ibctransferkeeper.NewKeeper(
@@ -389,6 +415,7 @@ func New(
 		params.NewAppModule(app.ParamsKeeper),
 		transferModule,
 		vidulumModule,
+		burnerModule,
 		// this line is used by starport scaffolding # stargate/app/appModule
 	)
 
@@ -401,14 +428,15 @@ func New(
 		evidencetypes.ModuleName, stakingtypes.ModuleName, ibchost.ModuleName,
 		feegrant.ModuleName, paramstypes.ModuleName, authtypes.ModuleName, banktypes.ModuleName,
 		crisistypes.ModuleName, govtypes.ModuleName, genutiltypes.ModuleName, ibctransfertypes.ModuleName,
-		vidulummoduletypes.ModuleName, vestingtypes.ModuleName,
+		vidulummoduletypes.ModuleName, vestingtypes.ModuleName, burnermoduletypes.ModuleName,
 	)
 
 	app.mm.SetOrderEndBlockers(upgradetypes.ModuleName, capabilitytypes.ModuleName, minttypes.ModuleName, distrtypes.ModuleName, slashingtypes.ModuleName,
 		evidencetypes.ModuleName, stakingtypes.ModuleName, ibchost.ModuleName,
 		feegrant.ModuleName, paramstypes.ModuleName, authtypes.ModuleName, banktypes.ModuleName,
 		crisistypes.ModuleName, govtypes.ModuleName, genutiltypes.ModuleName, ibctransfertypes.ModuleName,
-		vidulummoduletypes.ModuleName, vestingtypes.ModuleName)
+		vidulummoduletypes.ModuleName, vestingtypes.ModuleName, burnermoduletypes.ModuleName,
+	)
 
 	// NOTE: The genutils module must occur after staking so that pools are
 	// properly initialized with tokens from genesis accounts.
@@ -420,7 +448,7 @@ func New(
 		evidencetypes.ModuleName, stakingtypes.ModuleName, ibchost.ModuleName,
 		feegrant.ModuleName, paramstypes.ModuleName, authtypes.ModuleName, banktypes.ModuleName,
 		crisistypes.ModuleName, govtypes.ModuleName, genutiltypes.ModuleName, ibctransfertypes.ModuleName,
-		vidulummoduletypes.ModuleName, vestingtypes.ModuleName,
+		vidulummoduletypes.ModuleName, vestingtypes.ModuleName, burnermoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	)
 
@@ -486,6 +514,12 @@ func (app *App) setupUpgradeHandlers() {
 				//do nothing on purpose
 				return vm, nil
 			})
+		storeUpgrades := storetypes.StoreUpgrades{
+			Added: []string{burnermoduletypes.StoreKey},
+		}
+
+		// configure store loader that checks if version == upgradeHeight and applies store upgrades
+		app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
 	}
 }
 
@@ -608,13 +642,20 @@ func (app *App) RegisterTendermintService(clientCtx client.Context) {
 	tmservice.RegisterTendermintService(app.BaseApp.GRPCQueryRouter(), clientCtx, app.interfaceRegistry)
 }
 
-// GetMaccPerms returns a copy of the module account permissions
-func GetMaccPerms() map[string][]string {
-	dupMaccPerms := make(map[string][]string)
-	for k, v := range maccPerms {
-		dupMaccPerms[k] = v
+// GetBlockedAddresses returns all addresses that should be blocked from direct sending
+func (app *App) GetBlockedAddresses() map[string]bool {
+	modAccAddrs := make(map[string]bool)
+	for acc := range maccPerms {
+		// from the list of modules exclude the allowed ones (if any)
+		_, ok := allowedModules[acc]
+		if ok {
+			continue
+		}
+
+		modAccAddrs[authtypes.NewModuleAddress(acc).String()] = true
 	}
-	return dupMaccPerms
+
+	return modAccAddrs
 }
 
 // initParamsKeeper init params keeper and its subspaces
@@ -632,6 +673,7 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(ibctransfertypes.ModuleName)
 	paramsKeeper.Subspace(ibchost.ModuleName)
 	paramsKeeper.Subspace(vidulummoduletypes.ModuleName)
+	paramsKeeper.Subspace(burnermoduletypes.ModuleName)
 	// this line is used by starport scaffolding # stargate/app/paramSubspace
 
 	return paramsKeeper
