@@ -508,12 +508,14 @@ func (app *App) setupUpgradeHandlers() {
 
 	switch upgradeInfo.Name {
 	case "v1.3.0":
+		cfg := module.NewConfigurator(app.appCodec, app.MsgServiceRouter(), app.GRPCQueryRouter())
 		app.UpgradeKeeper.SetUpgradeHandler(
 			"v1.3.0",
 			func(ctx sdk.Context, _plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
 				//do nothing on purpose
-				return vm, nil
-			})
+				return app.mm.RunMigrations(ctx, cfg, vm)
+			},
+		)
 		storeUpgrades := storetypes.StoreUpgrades{
 			Added: []string{burnermoduletypes.StoreKey},
 		}
