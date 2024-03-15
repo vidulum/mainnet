@@ -1,45 +1,71 @@
 {
-  "app_message": {
+  "genesis_time": "2024-03-15T22:01:16.000347521Z",
+  "chain_id": "vidulum-testnet-2",
+  "initial_height": "1",
+  "consensus_params": {
+    "block": {
+      "max_bytes": "22020096",
+      "max_gas": "-1",
+      "time_iota_ms": "1000"
+    },
+    "evidence": {
+      "max_age_num_blocks": "100000",
+      "max_age_duration": "172800000000000",
+      "max_bytes": "1048576"
+    },
+    "validator": {
+      "pub_key_types": [
+        "ed25519"
+      ]
+    },
+    "version": {}
+  },
+  "app_hash": "",
+  "app_state": {
     "auth": {
+      "params": {
+        "max_memo_characters": "256",
+        "tx_sig_limit": "7",
+        "tx_size_cost_per_byte": "10",
+        "sig_verify_cost_ed25519": "590",
+        "sig_verify_cost_secp256k1": "1000"
+      },
       "accounts": [
         {
           "@type": "/cosmos.auth.v1beta1.BaseAccount",
-          "account_number": "0",
           "address": "vdl12qzysqfc20vpdjyh33m9p7nmxmpcmv0ykn80xv",
           "pub_key": null,
+          "account_number": "0",
           "sequence": "0"
         },
         {
           "@type": "/cosmos.auth.v1beta1.BaseAccount",
-          "account_number": "0",
           "address": "vdl1jllu340qhyzzxzwpzx4uj9u7wx6k9fd23nzr6r",
           "pub_key": null,
+          "account_number": "0",
           "sequence": "0"
         },
         {
           "@type": "/cosmos.auth.v1beta1.BaseAccount",
-          "account_number": "0",
           "address": "vdl175gpq5ducqcnq58n9yfc7s5k7ps2aatpk5cpxs",
           "pub_key": null,
+          "account_number": "0",
           "sequence": "0"
         }
-      ],
-      "params": {
-        "max_memo_characters": "256",
-        "sig_verify_cost_ed25519": "590",
-        "sig_verify_cost_secp256k1": "1000",
-        "tx_sig_limit": "7",
-        "tx_size_cost_per_byte": "10"
-      }
+      ]
     },
     "bank": {
+      "params": {
+        "send_enabled": [],
+        "default_send_enabled": true
+      },
       "balances": [
         {
           "address": "vdl12qzysqfc20vpdjyh33m9p7nmxmpcmv0ykn80xv",
           "coins": [
             {
-              "amount": "50000000000",
-              "denom": "tvdl"
+              "denom": "tvdl",
+              "amount": "50000000000"
             }
           ]
         },
@@ -47,8 +73,8 @@
           "address": "vdl1jllu340qhyzzxzwpzx4uj9u7wx6k9fd23nzr6r",
           "coins": [
             {
-              "amount": "50000000000",
-              "denom": "tvdl"
+              "denom": "tvdl",
+              "amount": "50000000000"
             }
           ]
         },
@@ -56,18 +82,14 @@
           "address": "vdl175gpq5ducqcnq58n9yfc7s5k7ps2aatpk5cpxs",
           "coins": [
             {
-              "amount": "50000000000",
-              "denom": "tvdl"
+              "denom": "tvdl",
+              "amount": "50000000000"
             }
           ]
         }
       ],
-      "denom_metadata": [],
-      "params": {
-        "default_send_enabled": true,
-        "send_enabled": []
-      },
-      "supply": []
+      "supply": [],
+      "denom_metadata": []
     },
     "capability": {
       "index": "1",
@@ -75,27 +97,27 @@
     },
     "crisis": {
       "constant_fee": {
-        "amount": "1000",
-        "denom": "tvdl"
+        "denom": "tvdl",
+        "amount": "1000"
       }
     },
     "distribution": {
-      "delegator_starting_infos": [],
-      "delegator_withdraw_infos": [],
+      "params": {
+        "community_tax": "0.020000000000000000",
+        "base_proposer_reward": "0.010000000000000000",
+        "bonus_proposer_reward": "0.040000000000000000",
+        "withdraw_addr_enabled": true
+      },
       "fee_pool": {
         "community_pool": []
       },
-      "outstanding_rewards": [],
-      "params": {
-        "base_proposer_reward": "0.010000000000000000",
-        "bonus_proposer_reward": "0.040000000000000000",
-        "community_tax": "0.020000000000000000",
-        "withdraw_addr_enabled": true
-      },
+      "delegator_withdraw_infos": [],
       "previous_proposer": "",
+      "outstanding_rewards": [],
       "validator_accumulated_commissions": [],
-      "validator_current_rewards": [],
       "validator_historical_rewards": [],
+      "validator_current_rewards": [],
+      "delegator_starting_infos": [],
       "validator_slash_events": []
     },
     "evidence": {
@@ -107,183 +129,183 @@
     "genutil": {
       "gen_txs": [
         {
+          "body": {
+            "messages": [
+              {
+                "@type": "/cosmos.staking.v1beta1.MsgCreateValidator",
+                "description": {
+                  "moniker": "faneatiku",
+                  "identity": "",
+                  "website": "",
+                  "security_contact": "",
+                  "details": ""
+                },
+                "commission": {
+                  "rate": "0.100000000000000000",
+                  "max_rate": "0.200000000000000000",
+                  "max_change_rate": "0.010000000000000000"
+                },
+                "min_self_delegation": "1",
+                "delegator_address": "vdl12qzysqfc20vpdjyh33m9p7nmxmpcmv0ykn80xv",
+                "validator_address": "vdlvaloper12qzysqfc20vpdjyh33m9p7nmxmpcmv0ydyrr0e",
+                "pubkey": {
+                  "@type": "/cosmos.crypto.ed25519.PubKey",
+                  "key": "20A97n0Coupp8+1vSpdc9dRNNNdQX2kZ4X/FjOsOemc="
+                },
+                "value": {
+                  "denom": "tvdl",
+                  "amount": "5000000"
+                }
+              }
+            ],
+            "memo": "18839c59ff5f19e16c8dd0d90b141b301df47818@155.138.140.216:26656",
+            "timeout_height": "0",
+            "extension_options": [],
+            "non_critical_extension_options": []
+          },
           "auth_info": {
-            "fee": {
-              "amount": [],
-              "gas_limit": "200000",
-              "granter": "",
-              "payer": ""
-            },
             "signer_infos": [
               {
+                "public_key": {
+                  "@type": "/cosmos.crypto.secp256k1.PubKey",
+                  "key": "AjVZfVNptsMWm9Q3DDqQOIDzAVqPo9bL7A3G9XJbbRak"
+                },
                 "mode_info": {
                   "single": {
                     "mode": "SIGN_MODE_DIRECT"
                   }
                 },
-                "public_key": {
-                  "@type": "/cosmos.crypto.secp256k1.PubKey",
-                  "key": "AjVZfVNptsMWm9Q3DDqQOIDzAVqPo9bL7A3G9XJbbRak"
-                },
                 "sequence": "0"
               }
-            ]
-          },
-          "body": {
-            "extension_options": [],
-            "memo": "18839c59ff5f19e16c8dd0d90b141b301df47818@155.138.140.216:26656",
-            "messages": [
-              {
-                "@type": "/cosmos.staking.v1beta1.MsgCreateValidator",
-                "commission": {
-                  "max_change_rate": "0.010000000000000000",
-                  "max_rate": "0.200000000000000000",
-                  "rate": "0.100000000000000000"
-                },
-                "delegator_address": "vdl12qzysqfc20vpdjyh33m9p7nmxmpcmv0ykn80xv",
-                "description": {
-                  "details": "",
-                  "identity": "",
-                  "moniker": "faneatiku",
-                  "security_contact": "",
-                  "website": ""
-                },
-                "min_self_delegation": "1",
-                "pubkey": {
-                  "@type": "/cosmos.crypto.ed25519.PubKey",
-                  "key": "20A97n0Coupp8+1vSpdc9dRNNNdQX2kZ4X/FjOsOemc="
-                },
-                "validator_address": "vdlvaloper12qzysqfc20vpdjyh33m9p7nmxmpcmv0ydyrr0e",
-                "value": {
-                  "amount": "5000000",
-                  "denom": "tvdl"
-                }
-              }
             ],
-            "non_critical_extension_options": [],
-            "timeout_height": "0"
+            "fee": {
+              "amount": [],
+              "gas_limit": "200000",
+              "payer": "",
+              "granter": ""
+            }
           },
           "signatures": [
             "VxaIMu/XUtybLyw9845W+yjXtz0gVemM/PpfrBj+ufAir64TRM218rfzfySJW305BEQ8pWgUIT6Q5NMguZJy0g=="
           ]
         },
         {
+          "body": {
+            "messages": [
+              {
+                "@type": "/cosmos.staking.v1beta1.MsgCreateValidator",
+                "description": {
+                  "moniker": "VALIDATOR_NAME",
+                  "identity": "",
+                  "website": "",
+                  "security_contact": "",
+                  "details": ""
+                },
+                "commission": {
+                  "rate": "0.100000000000000000",
+                  "max_rate": "0.200000000000000000",
+                  "max_change_rate": "0.010000000000000000"
+                },
+                "min_self_delegation": "1",
+                "delegator_address": "vdl1jllu340qhyzzxzwpzx4uj9u7wx6k9fd23nzr6r",
+                "validator_address": "vdlvaloper1jllu340qhyzzxzwpzx4uj9u7wx6k9fd22yx0nk",
+                "pubkey": {
+                  "@type": "/cosmos.crypto.ed25519.PubKey",
+                  "key": "EKP5biL+NUJaKAoFKycLqOgqN6ZP1QNYntA+2N+MqNE="
+                },
+                "value": {
+                  "denom": "tvdl",
+                  "amount": "5000000"
+                }
+              }
+            ],
+            "memo": "95382a5835f9f5336990da02cd1d04e0420e3f25@155.138.140.216:26656",
+            "timeout_height": "0",
+            "extension_options": [],
+            "non_critical_extension_options": []
+          },
           "auth_info": {
-            "fee": {
-              "amount": [],
-              "gas_limit": "200000",
-              "granter": "",
-              "payer": ""
-            },
             "signer_infos": [
               {
+                "public_key": {
+                  "@type": "/cosmos.crypto.secp256k1.PubKey",
+                  "key": "AomKuC7GfKJ+t1LODkWuLifG1fw0GcDZAeKWJFpKOd0h"
+                },
                 "mode_info": {
                   "single": {
                     "mode": "SIGN_MODE_DIRECT"
                   }
                 },
-                "public_key": {
-                  "@type": "/cosmos.crypto.secp256k1.PubKey",
-                  "key": "AomKuC7GfKJ+t1LODkWuLifG1fw0GcDZAeKWJFpKOd0h"
-                },
                 "sequence": "0"
               }
-            ]
-          },
-          "body": {
-            "extension_options": [],
-            "memo": "95382a5835f9f5336990da02cd1d04e0420e3f25@155.138.140.216:26656",
-            "messages": [
-              {
-                "@type": "/cosmos.staking.v1beta1.MsgCreateValidator",
-                "commission": {
-                  "max_change_rate": "0.010000000000000000",
-                  "max_rate": "0.200000000000000000",
-                  "rate": "0.100000000000000000"
-                },
-                "delegator_address": "vdl1jllu340qhyzzxzwpzx4uj9u7wx6k9fd23nzr6r",
-                "description": {
-                  "details": "",
-                  "identity": "",
-                  "moniker": "VALIDATOR_NAME",
-                  "security_contact": "",
-                  "website": ""
-                },
-                "min_self_delegation": "1",
-                "pubkey": {
-                  "@type": "/cosmos.crypto.ed25519.PubKey",
-                  "key": "EKP5biL+NUJaKAoFKycLqOgqN6ZP1QNYntA+2N+MqNE="
-                },
-                "validator_address": "vdlvaloper1jllu340qhyzzxzwpzx4uj9u7wx6k9fd22yx0nk",
-                "value": {
-                  "amount": "5000000",
-                  "denom": "tvdl"
-                }
-              }
             ],
-            "non_critical_extension_options": [],
-            "timeout_height": "0"
+            "fee": {
+              "amount": [],
+              "gas_limit": "200000",
+              "payer": "",
+              "granter": ""
+            }
           },
           "signatures": [
             "fA+1iMpFPrI43jKsejHyBf6b08F/fA3Z+7pQHDBI3FFMUQuxR1QRr2CyIr0Vob1zTOKHoZQx6r1axZAQrl8XuA=="
           ]
         },
         {
+          "body": {
+            "messages": [
+              {
+                "@type": "/cosmos.staking.v1beta1.MsgCreateValidator",
+                "description": {
+                  "moniker": "VALIDATOR_NAME",
+                  "identity": "",
+                  "website": "",
+                  "security_contact": "",
+                  "details": ""
+                },
+                "commission": {
+                  "rate": "0.100000000000000000",
+                  "max_rate": "0.200000000000000000",
+                  "max_change_rate": "0.010000000000000000"
+                },
+                "min_self_delegation": "1",
+                "delegator_address": "vdl175gpq5ducqcnq58n9yfc7s5k7ps2aatpk5cpxs",
+                "validator_address": "vdlvaloper175gpq5ducqcnq58n9yfc7s5k7ps2aatpdrud09",
+                "pubkey": {
+                  "@type": "/cosmos.crypto.ed25519.PubKey",
+                  "key": "qVD+1Rxe5AsEHDa32ZHqwWfynms3kfRjLhFf2sXZRDI="
+                },
+                "value": {
+                  "denom": "tvdl",
+                  "amount": "5000000"
+                }
+              }
+            ],
+            "memo": "d35eb3f41a58e816f44365528e79f74be55ea245@155.138.140.216:26656",
+            "timeout_height": "0",
+            "extension_options": [],
+            "non_critical_extension_options": []
+          },
           "auth_info": {
-            "fee": {
-              "amount": [],
-              "gas_limit": "200000",
-              "granter": "",
-              "payer": ""
-            },
             "signer_infos": [
               {
+                "public_key": {
+                  "@type": "/cosmos.crypto.secp256k1.PubKey",
+                  "key": "AuCWeb8TKN0zO2rq3E6DgktUXK9o1mHzLys/O7gUZdNM"
+                },
                 "mode_info": {
                   "single": {
                     "mode": "SIGN_MODE_DIRECT"
                   }
                 },
-                "public_key": {
-                  "@type": "/cosmos.crypto.secp256k1.PubKey",
-                  "key": "AuCWeb8TKN0zO2rq3E6DgktUXK9o1mHzLys/O7gUZdNM"
-                },
                 "sequence": "0"
               }
-            ]
-          },
-          "body": {
-            "extension_options": [],
-            "memo": "d35eb3f41a58e816f44365528e79f74be55ea245@155.138.140.216:26656",
-            "messages": [
-              {
-                "@type": "/cosmos.staking.v1beta1.MsgCreateValidator",
-                "commission": {
-                  "max_change_rate": "0.010000000000000000",
-                  "max_rate": "0.200000000000000000",
-                  "rate": "0.100000000000000000"
-                },
-                "delegator_address": "vdl175gpq5ducqcnq58n9yfc7s5k7ps2aatpk5cpxs",
-                "description": {
-                  "details": "",
-                  "identity": "",
-                  "moniker": "VALIDATOR_NAME",
-                  "security_contact": "",
-                  "website": ""
-                },
-                "min_self_delegation": "1",
-                "pubkey": {
-                  "@type": "/cosmos.crypto.ed25519.PubKey",
-                  "key": "qVD+1Rxe5AsEHDa32ZHqwWfynms3kfRjLhFf2sXZRDI="
-                },
-                "validator_address": "vdlvaloper175gpq5ducqcnq58n9yfc7s5k7ps2aatpdrud09",
-                "value": {
-                  "amount": "5000000",
-                  "denom": "tvdl"
-                }
-              }
             ],
-            "non_critical_extension_options": [],
-            "timeout_height": "0"
+            "fee": {
+              "amount": [],
+              "gas_limit": "200000",
+              "payer": "",
+              "granter": ""
+            }
           },
           "signatures": [
             "Xp2PaBXKHEx4Rlo8iJY1+yNMcG9OjQF8XEHQaTJE8cB96uvVFOq0J+xMOb9kbi2eqxNzZY8JhMW/6lXV6/UhOw=="
@@ -292,117 +314,113 @@
       ]
     },
     "gov": {
+      "starting_proposal_id": "1",
+      "deposits": [],
+      "votes": [],
+      "proposals": [],
       "deposit_params": {
-        "max_deposit_period": "3600s",
         "min_deposit": [
           {
-            "amount": "10000000",
-            "denom": "tvdl"
+            "denom": "tvdl",
+            "amount": "10000000"
           }
-        ]
+        ],
+        "max_deposit_period": "172800s"
       },
-      "deposits": [],
-      "proposals": [],
-      "starting_proposal_id": "1",
+      "voting_params": {
+        "voting_period": "172800s"
+      },
       "tally_params": {
         "quorum": "0.334000000000000000",
         "threshold": "0.500000000000000000",
         "veto_threshold": "0.334000000000000000"
-      },
-      "votes": [],
-      "voting_params": {
-        "voting_period": "3600s"
       }
     },
     "ibc": {
-      "channel_genesis": {
-        "ack_sequences": [],
-        "acknowledgements": [],
-        "channels": [],
-        "commitments": [],
-        "next_channel_sequence": "0",
-        "receipts": [],
-        "recv_sequences": [],
-        "send_sequences": []
-      },
       "client_genesis": {
         "clients": [],
         "clients_consensus": [],
         "clients_metadata": [],
-        "create_localhost": false,
-        "next_client_sequence": "0",
         "params": {
           "allowed_clients": [
             "06-solomachine",
             "07-tendermint"
           ]
-        }
+        },
+        "create_localhost": false,
+        "next_client_sequence": "0"
       },
       "connection_genesis": {
-        "client_connection_paths": [],
         "connections": [],
+        "client_connection_paths": [],
         "next_connection_sequence": "0",
         "params": {
           "max_expected_time_per_block": "30000000000"
         }
+      },
+      "channel_genesis": {
+        "channels": [],
+        "acknowledgements": [],
+        "commitments": [],
+        "receipts": [],
+        "send_sequences": [],
+        "recv_sequences": [],
+        "ack_sequences": [],
+        "next_channel_sequence": "0"
       }
     },
     "mint": {
       "minter": {
-        "annual_provisions": "0.000000000000000000",
-        "inflation": "0.130000000000000000"
+        "inflation": "0.130000000000000000",
+        "annual_provisions": "0.000000000000000000"
       },
       "params": {
-        "blocks_per_year": "6311520",
-        "goal_bonded": "0.670000000000000000",
-        "inflation_max": "0.300000000000000000",
+        "mint_denom": "tvdl",
+        "inflation_rate_change": "0.130000000000000000",
+        "inflation_max": "0.200000000000000000",
         "inflation_min": "0.070000000000000000",
-        "inflation_rate_change": "0.150000000000000000",
-        "mint_denom": "tvdl"
+        "goal_bonded": "0.670000000000000000",
+        "blocks_per_year": "6311520"
       }
     },
     "params": null,
     "slashing": {
-      "missed_blocks": [],
       "params": {
-        "downtime_jail_duration": "600s",
-        "min_signed_per_window": "0.500000000000000000",
         "signed_blocks_window": "100",
+        "min_signed_per_window": "0.500000000000000000",
+        "downtime_jail_duration": "600s",
         "slash_fraction_double_sign": "0.050000000000000000",
         "slash_fraction_downtime": "0.010000000000000000"
       },
-      "signing_infos": []
+      "signing_infos": [],
+      "missed_blocks": []
     },
     "staking": {
-      "delegations": [],
-      "exported": false,
+      "params": {
+        "unbonding_time": "1814400s",
+        "max_validators": 100,
+        "max_entries": 7,
+        "historical_entries": 10000,
+        "bond_denom": "tvdl"
+      },
       "last_total_power": "0",
       "last_validator_powers": [],
-      "params": {
-        "bond_denom": "tvdl",
-        "historical_entries": 10000,
-        "max_entries": 7,
-        "max_validators": 100,
-        "unbonding_time": "1814400s"
-      },
-      "redelegations": [],
+      "validators": [],
+      "delegations": [],
       "unbonding_delegations": [],
-      "validators": []
+      "redelegations": [],
+      "exported": false
     },
     "transfer": {
+      "port_id": "transfer",
       "denom_traces": [],
       "params": {
-        "receive_enabled": true,
-        "send_enabled": true
-      },
-      "port_id": "transfer"
+        "send_enabled": true,
+        "receive_enabled": true
+      }
     },
     "upgrade": {},
     "vesting": {},
     "vidulum": {}
-  },
-  "chain_id": "vidulum-testnet-2",
-  "gentxs_dir": "/home/vdl/.vidulum/config/gentx",
-  "moniker": "faneatiku",
-  "node_id": "18839c59ff5f19e16c8dd0d90b141b301df47818"
+  }
 }
