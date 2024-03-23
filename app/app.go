@@ -454,9 +454,10 @@ func New(
 
 	app.mm.RegisterInvariants(&app.CrisisKeeper)
 	app.mm.RegisterRoutes(app.Router(), app.QueryRouter(), encodingConfig.Amino)
-	app.mm.RegisterServices(module.NewConfigurator(app.appCodec, app.MsgServiceRouter(), app.GRPCQueryRouter()))
 
-	app.setupUpgradeHandlers()
+	cfg := module.NewConfigurator(app.appCodec, app.MsgServiceRouter(), app.GRPCQueryRouter())
+	app.mm.RegisterServices(cfg)
+	app.setupUpgradeHandlers(cfg)
 
 	// initialize stores
 	app.MountKVStores(keys)
@@ -496,7 +497,7 @@ func New(
 	return app
 }
 
-func (app *App) setupUpgradeHandlers() {
+func (app *App) setupUpgradeHandlers(cfg module.Configurator) {
 	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
 	if err != nil {
 		panic(fmt.Errorf("failed to read upgrade info from disk: %w", err))
@@ -508,7 +509,6 @@ func (app *App) setupUpgradeHandlers() {
 
 	switch upgradeInfo.Name {
 	case "v1.3.0":
-		cfg := module.NewConfigurator(app.appCodec, app.MsgServiceRouter(), app.GRPCQueryRouter())
 		app.UpgradeKeeper.SetUpgradeHandler(
 			"v1.3.0",
 			func(ctx sdk.Context, _plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
